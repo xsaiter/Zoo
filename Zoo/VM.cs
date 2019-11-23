@@ -1,18 +1,27 @@
 namespace Zoo {
     public class VM {
         public const int DEFAULT_MEM_SIZE = 8 * (1 << 10);
-        readonly int[] _m;
-        readonly int _memSize;
+        int _pc;
+        int _sp;
+        int _cmd;
 
         public VM(int memSize = DEFAULT_MEM_SIZE) {
-            _memSize = memSize;
-            _m = new int[_memSize];
+            MemSize = memSize;
+            Mem = new int[MemSize];
+            _pc = 0;
+            _sp = MemSize;
         }
 
-        public int MemSize() => _memSize;
+        public int MemSize { get; }
+        public int[] Mem { get; }
 
         public void Run() {
+            while ((_cmd = Mem[_pc++]) != Cmds.STOP) { }
+        }
 
+        public static class Cmds {
+            public const int STOP = -1;
+            public const int ADD = -2;
         }
     }
 }
